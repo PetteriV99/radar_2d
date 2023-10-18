@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dm6414ohlixrw"]
+
+[ext_resource type="Script" path="res://player.cs" id="1_8aeuu"]
+[ext_resource type="Texture2D" uid="uid://fghe8t7kn00i" path="res://art/f-16_blank_strip3.png" id="1_avkt6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbs66"]
+atlas = ExtResource("1_avkt6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t8eav"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kbs66")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}]
+
+[node name="Player" type="Area2D"]
+position = Vector2(227, 262)
+script = ExtResource("1_8aeuu")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t8eav")
+animation = &"fly"
