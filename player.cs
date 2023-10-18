@@ -3,40 +3,32 @@ using System;
 
 public partial class player : Area2D
 {
+	[Export]
+	public int speed = 400; // How fast the player will move (pixels/sec).
+	public Vector2 screenSize; // Size of the game window.
+	
+	private Vector2 _velocity = new Vector2();
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		ScreenSize = GetViewportRect().Size;
+		screenSize = GetViewportRect().Size;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		var velocity = Vector2.Zero; // The player's movement vector.
-
+		var target = GetGlobalMousePosition();
+		_velocity = target - Position;
+		
 		if (Input.IsActionPressed("move"))
 		{
-			var position = GetViewport().GetMousePosition();
-			GD.Print(position);
-		}
-		
-		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+			if (_velocity.Length() > speed * (float)delta)
+			{
+				_velocity = _velocity.Normalized() * speed;
+			}
 
-		if (velocity.Length() > 0)
-		{
-			velocity = velocity.Normalized() * Speed;
-			animatedSprite2D.Play();
+			Position += _velocity * (float)delta;
 		}
-		else
-		{
-			animatedSprite2D.Stop();
-		}
-		
 	}
-	
-	[Export]
-	public int Speed { get; set; } = 400; // How fast the player will move (pixels/sec).
-
-	public Vector2 ScreenSize; // Size of the game window.
-	
 }
