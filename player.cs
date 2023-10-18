@@ -1,34 +1,36 @@
 using Godot;
-using System;
 
-public partial class player : Area2D
+public partial class player : CharacterBody2D
 {
 	[Export]
-	public int speed = 400; // How fast the player will move (pixels/sec).
-	public Vector2 screenSize; // Size of the game window.
-	
-	private Vector2 _velocity = new Vector2();
-	
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	public int Speed { get; set; } = 400;
+
+	private Vector2 _target;
+
+	public override void _Input(InputEvent @event)
 	{
-		screenSize = GetViewportRect().Size;
+		if (@event.IsActionPressed("click"))
+		{
+			_target = GetGlobalMousePosition();
+		}
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _PhysicsProcess(double delta)
+	{
+		Velocity = Position.DirectionTo(_target) * Speed;
+		LookAt(_target);
+		if (Position.DistanceTo(_target) > 10)
+		{
+			MoveAndSlide();
+		}
+	}
+	
+	public override void _Ready()
+	{
+		_target = Position;
+	}
+	
 	public override void _Process(double delta)
 	{
-		var target = GetGlobalMousePosition();
-		_velocity = target - Position;
-		
-		if (Input.IsActionPressed("move"))
-		{
-			if (_velocity.Length() > speed * (float)delta)
-			{
-				_velocity = _velocity.Normalized() * speed;
-			}
-
-			Position += _velocity * (float)delta;
-		}
 	}
 }

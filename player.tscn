@@ -3,33 +3,31 @@
 [ext_resource type="Script" path="res://player.cs" id="1_8aeuu"]
 [ext_resource type="Texture2D" uid="uid://fghe8t7kn00i" path="res://art/f-16_blank_strip3.png" id="1_avkt6"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kbs66"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8fh5"]
 atlas = ExtResource("1_avkt6")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_t8eav"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_k8dif"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kbs66")
+"texture": SubResource("AtlasTexture_c8fh5")
 }],
 "loop": true,
-"name": &"fly",
+"name": &"default",
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ay4ts"]
-radius = 13.0
-height = 32.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8koo4"]
 
-[node name="Player" type="Area2D"]
-position = Vector2(226, 258)
+[node name="CharacterBody2D" type="CharacterBody2D"]
+position = Vector2(251, 239)
 script = ExtResource("1_8aeuu")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_t8eav")
-animation = &"fly"
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_k8dif")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_ay4ts")
+shape = SubResource("CapsuleShape2D_8koo4")
